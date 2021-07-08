@@ -127,9 +127,7 @@
         <com.afwsamples.testdpc.common.preference.DpcPreference
             android:key="install_apk_package"
             android:title="@string/install_apk_package_title"
-            testdpc:minSdkVersion="M"
-            testdpc:admin="deviceOwner"
-            testdpc:delegation="delegation-package-installation" />
+            testdpc:minSdkVersion="M" />
         <com.afwsamples.testdpc.common.preference.DpcPreference
             android:key="uninstall_package"
             android:title="@string/uninstall_packages_title"

@@ -17,9 +17,7 @@
 package com.afwsamples.testdpc.common;
 
 import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentSender;
+import android.content.*;
 import android.content.pm.PackageInstaller;
 
 import java.io.IOException;
@@ -65,6 +63,16 @@ public class PackageInstallationUtils {
     }
 
     private static IntentSender createInstallIntentSender(Context context, int sessionId) {
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int status = intent.getIntExtra(PackageInstaller.EXTRA_STATUS, PackageInstaller.STATUS_FAILURE);
+                if (status == PackageInstaller.STATUS_PENDING_USER_ACTION) {
+                    context.startActivity((Intent) intent.getParcelableExtra(Intent.EXTRA_INTENT));
+                }
+            }
+        }, new IntentFilter(ACTION_INSTALL_COMPLETE));
+
         final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, sessionId,
                 new Intent(ACTION_INSTALL_COMPLETE), 0);
         return pendingIntent.getIntentSender();
